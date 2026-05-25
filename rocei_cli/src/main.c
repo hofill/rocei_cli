@@ -229,7 +229,7 @@ static int cmd_read_id(rocei_card_t *card) {
 
 /* ------------------------------------------------------- token (JWT-style) */
 
-typedef struct { int no_x5c; int embed_data; } sign_opts_t;
+typedef struct { int no_x5c; int embed_data; int place; } sign_opts_t;
 
 static int write_token(const char *token_path, const char *filename,
                        const uint8_t *file_data, size_t file_size,
@@ -301,6 +301,7 @@ static int cmd_sign(rocei_card_t *card, int argc, char **argv, sign_opts_t *opts
     for (int i = 0; i < argc; i++) {
         if (strcmp(argv[i], "--no-x5c")  == 0) { opts->no_x5c    = 1; continue; }
         if (strcmp(argv[i], "--embed")   == 0) { opts->embed_data = 1; continue; }
+        if (strcmp(argv[i], "--place")   == 0) { opts->place      = 1; continue; }
         path = argv[i];
     }
     if (!path) { fprintf(stderr, "sign: missing filename\n"); usage(); return 1; }
@@ -323,7 +324,15 @@ static int cmd_sign(rocei_card_t *card, int argc, char **argv, sign_opts_t *opts
             return 1;
         }
         rocei_disconnect(card);
-        const char *args[] = {"python3", script, path, "--pin", pin, NULL};
+        const char *args[8];
+        int ai = 0;
+        args[ai++] = "python3";
+        args[ai++] = script;
+        args[ai++] = path;
+        args[ai++] = "--pin";
+        args[ai++] = pin;
+        if (opts->place) args[ai++] = "--place";
+        args[ai] = NULL;
         rocei_execvp("python3", args);
         perror("exec python3"); return 1;
     }

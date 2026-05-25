@@ -62,10 +62,11 @@ pip install -r requirements.txt
 
 ```bash
 ./rocei list                    # list card objects
+./rocei sign document.pdf       # → signed_document.pdf
+./rocei sign --place doc.pdf    # pick signature placement in browser, then sign
 ./rocei read-cert               # dump signing cert (DER) to stdout
 ./rocei read-id                 # read identity data (prompts for 4-digit PIN)
 ./rocei sign contract.txt       # → contract.txt.token
-./rocei sign document.pdf       # → signed_document.pdf
 ./rocei sign --no-x5c file.txt  # omit cert from token
 ./rocei sign --embed file.txt   # embed file contents in token payload
 ./rocei sign-hash <hex>         # sign a raw hash, print base64url signature
@@ -81,14 +82,10 @@ Header includes `alg: ES384` and the signing cert (`x5c`).
 Payload includes the filename, SHA-256 hash, and timestamp.  
 Signature is 96-byte raw ECDSA P-384 r‖s.
 
-### Python PDF signer
+PDF signing also supports `--place`, which opens a browser tab where you can drag a box to choose exactly where the signature stamp appears:
 
 ```bash
-python3 rocei_sign.py input.pdf
-python3 rocei_sign.py input.pdf -o output.pdf
-python3 rocei_sign.py input.pdf --reason "Aprobare" --location "București"
-python3 rocei_sign.py input.pdf --no-visible
-python3 rocei_sign.py input.pdf --pin 123456 # not recommended
+./rocei sign --place document.pdf
 ```
 
 ### Use as a PKCS#11 library
