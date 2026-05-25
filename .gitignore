@@ -1,0 +1,24 @@
+# Build outputs
+rocei_pkcs11/rocei_pkcs11.dylib
+rocei_pkcs11/p11_smoke
+rocei_pkcs11/p11_smoke.dSYM/
+rocei_cli/rocei
+rocei_cli/probe
+rocei_cli/probe.dSYM/
+rocei_cli/rocei.dSYM/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+venv/
+.venv/
+*.egg-info/
+
+# macOS
+.DS_Store
+*.dSYM/
+
+# Secrets — never commit a PIN or credential
+.env
+*.env
