@@ -12,7 +12,7 @@ Talks directly to the card over PC/SC. The private key never leaves the chip.
 
 ```bash
 brew tap hofill/rocei
-brew install --HEAD rocei
+brew install --HEAD hofill/rocei/rocei
 ```
 
 For PDF signing, also install the Python dependencies:
